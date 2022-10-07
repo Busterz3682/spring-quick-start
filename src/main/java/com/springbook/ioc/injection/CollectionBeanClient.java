@@ -1,25 +1,22 @@
-package polymorphism;
+package com.springbook.ioc.injection;
+
+import java.util.List;
 
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.GenericXmlApplicationContext;
 
-public class TVUser {
+public class CollectionBeanClient {
 
 	public static void main(String[] args) {
-		//1. Spring 컨테이너 구동
 		AbstractApplicationContext factory = new GenericXmlApplicationContext("applicationContext.xml");
 		
-		//2. Spring 컨테이너로부터 필요한 객체를 요청(Lookup)한다
-		TV tv = (TV)factory.getBean("lgTV");
-		tv.powerOn();
-		tv.volumeUp();
-		tv.volumeDown();
-		tv.powerOff();
+		CollectionBean bean = (CollectionBean)factory.getBean("collectionBean");
+		List<String> addressList = bean.getAddressList();
+		for(String address : addressList) {
+			System.out.println(address.toString());
+		}
 		
-		//3. Spring 컨테이너 종료
 		factory.close();
-	
-	
-	
 	}
+
 }
