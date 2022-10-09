@@ -10,16 +10,24 @@
 	
 	<context:component-scan base-package="com.springbook.biz"></context:component-scan>
 	
+	<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
+	
 	<bean id="log" class="com.springbook.biz.common.LogAdvice"></bean>
+	<!-- 
+	<bean id="log4j" class="com.springbook.biz.common.Log4jAdvice"></bean>
 	
 	<aop:config>
 		<aop:pointcut id="allPointcut" expression="execution(* com.springbook.biz..*Impl.*(..))"/>
+		<aop:pointcut id="getPointcut" expression="execution(* com.springbook.biz..*Impl.get*(..))"/>
 		
 		<aop:aspect ref="log">
-			<aop:before pointcut-ref="allPointcut" method="printLog"/>
+			<aop:after pointcut-ref="getPointcut" method="printLog"/>
+		</aop:aspect>
+		<aop:aspect ref="log4j">
+			<aop:after pointcut-ref="allPointcut" method="printLogging" />
 		</aop:aspect>
 	</aop:config>
-	
+	-->
 	
 	<!-- 
 	<bean id="tv" class="polymorphism.SamsungTV" p:speaker-ref="sony" p:price="2700000">
@@ -35,6 +43,16 @@
 				<value>서울시 성동구 행당동</value>
 			</list>
 		</property>
+	</bean>
+	
+	<!-- DataSource 설정 -->
+	<context:property-placeholder location="classpath:config/database.properties"/>
+	
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="${jdbc.driver}"/>
+		<property name="url" value="${jdbc.url}"/>
+		<property name="username" value="${jdbc.username}"/>
+		<property name="password" value="${jdbc.password}"/>
 	</bean>
 
 </beans>
