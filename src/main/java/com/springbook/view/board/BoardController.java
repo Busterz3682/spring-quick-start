@@ -50,7 +50,7 @@ public class BoardController {
 	public String getBoard(BoardVO vo, Model model) {
 		System.out.println("글 상세 조회 처리");
 		model.addAttribute("board", boardService.getBoard(vo)); //Model 정보 저장
-		return "gerBoard.jsp"; //View 이름 리턴
+		return "getBoard.jsp"; //View 이름 리턴
 	}
 
 	//검색 조건 목록 설정
@@ -66,8 +66,14 @@ public class BoardController {
 	@RequestMapping("/getBoardList.do")
 	public String getBoardList(BoardVO vo, Model model) {
 		System.out.println("글 목록 검색 처리");
+		//Null Check
+		if(vo.getSearchCondition() == null) {
+			vo.setSearchCondition("TITLE");
+		}
+		if(vo.getSearchKeyword() == null) {
+			vo.setSearchKeyword("");
+		}
 		model.addAttribute("boardList", boardService.getBoardList(vo)); //Model 정보 저장
 		return "getBoardList.jsp"; //View 이름 리턴
 	}
-
 }
